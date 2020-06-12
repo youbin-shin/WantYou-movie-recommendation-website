@@ -64,7 +64,7 @@
     <h5 class="card-title">영화 제목: {{ movie.title }}</h5>
     <p class="card-text">인기도 : {{ movie.popularity }}</p>
     <p class="card-text"><small class="text-muted">평점 : {{ movie.vote_average }}</small></p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-primary">Go somewhere</a>
   </div>
 </div>
 
