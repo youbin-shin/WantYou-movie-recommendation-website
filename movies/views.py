@@ -19,7 +19,7 @@ def index(request):
     movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
     movies3 = Movie.objects.filter().order_by('-popularity')[8:12]
     movies = Movie.objects.all()
-    paginator = Paginator(movies, 10) # 10개씩 자르겠다!
+    paginator = Paginator(movies, 12) # 12개씩 자르겠다!
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {

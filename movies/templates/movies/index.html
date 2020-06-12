@@ -55,24 +55,21 @@
 
 
 {% load bootstrap_pagination %}
-<div class="d-flex">
+<div class="container mt-4 mb-4">
+  <div class="row">
 {% for movie in page_obj %}
-<div class="card m-3" style="max-width: 540px;">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" class="card-img" alt="영화 메인 포스터">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">영화 제목: {{ movie.title }}</h5>
-        <p class="card-text">{{ movie.original_title }}</p>
-        <p class="card-text"><small class="text-muted">인기도 : {{ movie.popularity }}</small></p>
-        <p class="card-text"><small class="text-muted">평점 : {{ movie.vote_average }}</small></p>
-      </div>
-    </div>
+<div class="card col-lg-3 col-sm-6 p-2">
+  <img src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">영화 제목: {{ movie.title }}</h5>
+    <p class="card-text">인기도 : {{ movie.popularity }}</p>
+    <p class="card-text"><small class="text-muted">평점 : {{ movie.vote_average }}</small></p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
 </div>
+
 {% endfor %}
+</div>
 </div>
 <!-- paginator -->
 {% bootstrap_paginate page_obj range=5 show_prev_next="false" show_first_last="true" %}
