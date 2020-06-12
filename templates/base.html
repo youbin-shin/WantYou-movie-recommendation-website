@@ -24,7 +24,7 @@
         <div class="mx-3"><a href="/communities/" class="text-white text-decoration-none"><h5>Review List</h5></a></div>
         <div class="mx-3"><a href="/communities/new_review/" class="text-white text-decoration-none"><h5>New Review</h5></a></div>
         {% if user.is_authenticated %}
-          <a class="nav-item nav-link" href="#">{{ user.username }}</a>
+          <a class="nav-item nav-link" href="{% url 'accounts:profile' user.pk %}">{{ user.username }}</a>
             <form class="nav-item nav-link" action="{% url 'accounts:logout' %}" method="POST">
                 {% csrf_token %}
                 <button> 로그아웃 </button>

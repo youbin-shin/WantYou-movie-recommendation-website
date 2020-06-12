@@ -5,6 +5,22 @@
 <h1>{{ movie.title }} 페이지</h1>
 <div class="card mb-3">
   <img src="https://image.tmdb.org/t/p/w500/{{ movie.backdrop_path }}" class="card-img-top" alt="영화 배경 포스터">
+  
+  <!-- youtube -->
+  <div id="link">My video</div>
+
+  <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              </div>
+              <div class="modal-body">
+                  <iframe width="400" height="300" frameborder="0" allowfullscreen=""></iframe>
+              </div>
+          </div>
+      </div>
+</div>
   <div class="card-body">
     <h5 class="card-title">movie title : {{ movie.original_title }}</h5>
     <p class="card-text">{{ movie.overview }}</p>
@@ -18,38 +34,26 @@
         {{ genre.name }}
       {% endfor %}
     </p>
+    {% if user in movie.like_users.all %}
+    <i class="fas fa-heart fa-lg like-button" style="color: crimson;" data-id="{{ movie.pk }}"></i>
+    {% else %}
+    <i class="fas fa-heart fa-lg like-button" style="color: black;" data-id="{{ movie.pk }}"></i>
+    {% endif %}
+    <span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span>명이 이 글을 좋아합니다.
+    <a class="btn btn-primary" href="{% url 'movies:index' %}" class="btn btn-primary">뒤로 가기</a>
   </div>
 </div>
 
 
-{% if request.user.is_superuser == 1 %}
-<a href="{% url 'movies:update' movie.pk %}" class="btn btn-warning">수정</a>
-
-<form action="{% url 'movies:delete' movie.pk %}" method="POST">
-    {% csrf_token %}
-    <button class="btn btn-warning mt-2">삭제</button>
-</form>
-{% endif %}
-
-
-<hr>
-{% if user in movie.like_users.all %}
-<i class="fas fa-heart fa-lg like-button" style="color: crimson;" data-id="{{ movie.pk }}"></i>
-{% else %}
-<i class="fas fa-heart fa-lg like-button" style="color: black;" data-id="{{ movie.pk }}"></i>
-{% endif %}
-<span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span>명이 이 글을 좋아합니다.
-<hr />
-
-
 <script>
+  // 좋아요 기능
 const likeButtonList = document.querySelectorAll('.like-button')
 likeButtonList.forEach(likeButton => {
- likeButton.addEventListener('click', function (event) {
-  const movieId = event.target.dataset.id
-  {% if request.user.is_authenticated %}
-    axios.get(`/movies/${movieId}/like/`)
-      .then(response => {
+  likeButton.addEventListener('click', function (event) {
+    const movieId = event.target.dataset.id
+    {% if request.user.is_authenticated %}
+      axios.get(`/movies/${movieId}/like/`)
+        .then(response => {
         document.querySelector(`#like-count-${movieId}`).innerText = response.data.count
         if (response.data.liked) {
           event.target.style.color = 'crimson'
@@ -57,14 +61,28 @@ likeButtonList.forEach(likeButton => {
           event.target.style.color = 'black'
         }
       })
-      .catch(error => {
-        console.log(error)
-      })
-  {% else %}
-    alert('비로그인 사용자는 누를 수 없습니다.')
-  {% endif %}
+        .catch(error => { console.log(error) })
+    {% else %}
+      alert('비로그인 사용자는 누를 수 없습니다.')
+    {% endif %}
  })
 })
+
+// youtube 트레일러 기능
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.10.1.min.js"></script>')</script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $('#link').click(function () {
+        var src = 'http://www.youtube.com/v/FSi2fJALDyQ&amp;autoplay=1';
+        $('#myModal').modal('show');
+        $('#myModal iframe').attr('src', src);
+    });
+
+    $('#myModal button').click(function () {
+        $('#myModal iframe').removeAttr('src');
+    });
+</script>
 
 </script>
 

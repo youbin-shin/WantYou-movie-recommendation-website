@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ user.pk }} : {{ user.username }}</h1>
+{% with user_followers=user.followers.all %}
+    {% if request.user == user %}
+        <a href="{% url 'accounts:update' %}">회원 수정</a>
+        <form action="{% url 'accounts:delete' %}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-secondary">회원 탈퇴</button>
+        </form>
+    {% else %}
+    {% endif %}
+{% endwith %}
+<hr>
+<h3>작성한 글 목록</h3>
+{% for review in user.review_set.all %}
+    <a href="{% url 'communities:review_detail' review.pk %}">
+        <p>{{ review.title }}</p>
+    </a>
+{% endfor %}
+<h3>좋아요한 글 목록</h3>
+{% for movie in user.like_movies.all %}
+    <a href="{% url 'movies:detail' movie.pk %}">
+        <p>{{ movie.title }}</p>
+    </a>
+{% endfor %}
+{% endblock %}
