@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>제목 : {{ review.title }}</p>
+    <p>작성자: {{ review.user.username }}</p>
+    <p>영화 제목 : {{ review.movie_title }}</p>
+    <p>랭크 : {{ review.rank }}</p>
+    <p>내용 : {{ review.content }}</p>
+    <p>생성 시각 : {{ review.created_at }}</p>
+    <p>수정 시각 : {{ review.updated_at }}</p>
+    {% if review.user == request.user %}
+    <a href="{% url 'communities:review_update' review.pk %}">수정</a>
+    <form action="{% url 'communities:review_delete' review.pk %}" method="POST">
+        {% csrf_token %}
+        <button>삭제</button>
+    </form>
+    {% endif %}
+    <hr>
+    <h3>댓글</h3>
+
+    {% for comment in review.comment_set.all %}
+        <li>{{ comment.user.username }} : {{ comment.content }}</li>
+        {% if comment.user == request.user %}
+            <form action="{% url 'communities:comments_delete' review.pk comment.pk %}" method="POST">
+    			{% csrf_token %}
+    			<button>댓글 삭제</button>
+    		</form>
+    	{% endif %}
+    {% endfor %}
+
+    <form action="{% url 'communities:comments_create' review.pk %}" method='POST'>
+        {% csrf_token %}
+        {{ form }}
+        <button>댓글 작성</button>
+    </form>
+{% endblock %}

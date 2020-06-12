@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # pip 
+    # 'django-extensions',
+    # 'bootstrap4',
+
     # django_original
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +46,10 @@ INSTALLED_APPS = [
     # my apps
     'accounts',
     'movies',
+    'communities',
+
+    
+    # 'bootstrap_pagination', 
 ]
 
 MIDDLEWARE = [
@@ -110,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
