@@ -47,9 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'movies',
     'communities',
-
-    
-    # 'bootstrap_pagination', 
+    'bootstrap_pagination', 
 ]
 
 MIDDLEWARE = [

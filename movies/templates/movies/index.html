@@ -1,9 +1,100 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>index</div>
+<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="d-flex">
+      {% for movie1 in movies1 %}
+        <img src="https://image.tmdb.org/t/p/original/{{ movie1.poster_path }}" class="d-block w-25" alt="...">
+      {% endfor %}
+      </div>
+     
+      <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="d-flex">
+      {% for movie2 in movies2 %}
+        <img src="https://image.tmdb.org/t/p/original/{{ movie2.poster_path }}" class="d-block w-25" alt="...">
+      {% endfor %}
+      </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Second slide label</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="d-flex">
+      {% for movie3 in movies3 %}
+        <img src="https://image.tmdb.org/t/p/original/{{ movie3.poster_path }}" class="d-block w-25" alt="...">
+      {% endfor %}
+      </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 
 
+{% load bootstrap_pagination %}
+<div class="d-flex">
+{% for movie in page_obj %}
+<div class="card m-3" style="max-width: 540px;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" class="card-img" alt="영화 메인 포스터">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">영화 제목: {{ movie.title }}</h5>
+        <p class="card-text">{{ movie.original_title }}</p>
+        <p class="card-text"><small class="text-muted">인기도 : {{ movie.popularity }}</small></p>
+        <p class="card-text"><small class="text-muted">평점 : {{ movie.vote_average }}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+<!-- paginator -->
+{% bootstrap_paginate page_obj range=5 show_prev_next="false" show_first_last="true" %}
+<nav aria-label="Page navigation example">
+  <div class="pagination">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a href="?page=1">&laquo; first</a>
+              <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">next</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
+</nav>
 
 
 {% endblock %}
