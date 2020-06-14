@@ -2,43 +2,151 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.0.1">
+    <title>WantYou 영화 추천 서비스</title>
     <!-- fornt awesome -->
     <script src="https://kit.fontawesome.com/542f4fd571.js" crossorigin="anonymous"></script>
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-</head>
-<body class="bg-dark">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info mb-4 ">
-    <a class="navbar-brand blod" href=""> Wan t You</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" href="{% url 'movies:index' %}">Movie List</a>
-        <!-- <div class="mx-3"><a href="/communities/" class="text-white text-decoration-none"><h5>Community List</h5></a></div> -->
-        <a class="nav-item nav-link" href="{% url 'communities:review_list' %}">Community List</a>
-        <!-- <div class="mx-3"><a href="/communities/new_review/" class="text-white text-decoration-none"><h5>New community</h5></a></div> -->
-        <a class="nav-item nav-link" href="{% url 'communities:new_review' %}">Community 작성</a>
-        {% if user.is_authenticated %}
-          <a class="nav-item nav-link" href="{% url 'accounts:profile' user.pk %}">{{ user.username }}님 마이페이지</a>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/product/">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+
+    .container {
+      max-width: 960px;
+    }
+    
+    /*
+      * Custom translucent site header
+      */
+    
+    .site-header {
+      background-color: rgba(0, 0, 0, .85);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      height:100px;
+    }
+    .site-header a {
+      color: #999;
+      transition: ease-in-out color .15s;
+    }
+    .site-header a:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+    
+    /*
+      * Dummy devices (replace them with your own or something else entirely!)
+      */
+    
+    .product-device {
+      position: absolute;
+      right: 10%;
+      bottom: -30%;
+      width: 300px;
+      height: 540px;
+      background-color: #333;
+      border-radius: 21px;
+      -webkit-transform: rotate(30deg);
+      transform: rotate(30deg);
+    }
+    
+    .product-device::before {
+      position: absolute;
+      top: 10%;
+      right: 10px;
+      bottom: 10%;
+      left: 10px;
+      content: "";
+      background-color: rgba(255, 255, 255, .1);
+      border-radius: 5px;
+    }
+    
+    .product-device-2 {
+      top: -25%;
+      right: auto;
+      bottom: 0;
+      left: 5%;
+      background-color: #e5e5e5;
+    }
+    
+    
+    /*
+      * Extra utilities
+      */
+    
+    .flex-equal > * {
+      -ms-flex: 1;
+      flex: 1;
+    }
+    @media (min-width: 768px) {
+      .flex-md-equal > * {
+        -ms-flex: 1;
+        flex: 1;
+      }
+    }
+    
+    .overflow-hidden { overflow: hidden; }
+    .nav{
+      color:black;
+    }
+    </style>
+  </head>
+  <body style="background-color:rgba(70, 54, 73, 0.85);">
+    <nav class="navbar navbar-expand-lg  site-header sticky-top py-1" style="background-color: black;">
+      <a class="navbar-brand py-2" href="#" ><img src="https://user-images.githubusercontent.com/60081201/84585412-9b079600-ae4a-11ea-881f-a05c27a39223.png" alt="logo" style="width: 150px; height: 100;"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon "></span>
+      </button>
+      
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav" style="color:black;">
+        <ul class="navbar-nav">
+          <li class="nav-item active ml-3 mr-4 ">
+            <a class="nav-link py-2 d-none d-md-inline-block mt-2" href="{% url 'movies:home' %}">Introduce</a>
+          </li>
+          <li class="nav-item ml-3 mr-4 ">
+            <a class="nav-link py-2 d-none d-md-inline-block mt-2" href="{% url 'movies:index' %}">AboutMovie</a>
+          </li>
+          <li class="nav-item ml-3 mr-4 ">
+            <a class="nav-link py-2 d-none d-md-inline-block mt-2" href="{% url 'communities:review_list' %}">Community</a>
+          </li>
+          <li class="nav-item ml-3 mr-4 ">
+            <a class="nav-link py-2 d-none d-md-inline-block mt-2" href="{% url 'communities:new_review' %}">Create Review</a>
+          </li>
+          
+
+          {% if user.is_authenticated %}
+          <a class="nav-link py-2 d-none d-md-inline-block mt-2" href="{% url 'accounts:profile' user.pk %}">{{ user.username }}님 마이페이지</a>
             <form class="nav-item nav-link" action="{% url 'accounts:logout' %}" method="POST">
                 {% csrf_token %}
-                <button class="btn btn-secondary"> 로그아웃 </button>
+                <button class="btn btn-outline-light "> 로그아웃 </button>
             </form>
+          {% else %}
+          <a class="nav-link py-2 d-none d-md-inline-block mt-2 mr-2 btn btn-outline-light" href="{% url 'accounts:signup' %}">회원가입</a>
+          <a class="nav-link py-2 d-none d-md-inline-block mt-2 btn btn-outline-light" href="{% url 'accounts:login' %}">로그인</a>
+          {% endif %}
 
-            {% else %}
-              <a class="nav-item nav-link btn btn-primary mr-2" href="{% url 'accounts:signup' %}">회원가입</a>
-              <a class="nav-item nav-link btn btn-primary" href="{% url 'accounts:login' %}">로그인</a>
-            {% endif %}
-            </div>
-        </div>
+        </ul>
+      </div>
     </nav>
+
     {% if messages %}
     <div class="messages">
       {% for message in messages %}
@@ -46,11 +154,10 @@
       {% endfor %}
     </div>
     {% endif %}
-    <div class="container">
+    <!-- <div class="container"> -->
      {% block content %}
      {% endblock %}
-    </div>
-
+    <!-- </div> -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

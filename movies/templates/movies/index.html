@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3 class="text-white">추천 서비스</h3>
+<div class="container">
+<h3 class="text-white pt-3">추천 서비스</h3>
 
 <div id="carouselExampleCaptions" class="carousel slide mt-4" data-ride="carousel">
  
@@ -95,26 +96,30 @@
 </div>
 </div>
 <!-- paginator -->
-{% bootstrap_paginate page_obj range=5 show_prev_next="false" show_first_last="true" %}
-<nav aria-label="Page navigation example">
-  <div class="pagination">
-      <span class="step-links">
-          {% if page_obj.has_previous %}
-              <a href="?page=1">&laquo; first</a>
-              <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-          {% endif %}
+<div class="d-flex justify-content-center">
+  {% bootstrap_paginate page_obj range=5 show_prev_next="false" show_first_last="true" %}
+  <nav aria-label="Page navigation example">
+    <div class="pagination">
+        <span class="step-links">
+       
+            {% if page_obj.has_previous %}
+                <a href="?page=1"></a>
+                <a href="?page={{ page_obj.previous_page_number }}"></a>
+            {% endif %}
 
-          <span class="current">
-              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-          </span>
-
-          {% if page_obj.has_next %}
-              <a href="?page={{ page_obj.next_page_number }}">next</a>
-              <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-          {% endif %}
-      </span>
-  </div>
-</nav>
-
-
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"></a>
+            {% endif %}
+          </div>
+      
+            <span class="ml-4 mt-1 current text-white">
+              총 페이지 {{ page_obj.paginator.num_pages }}
+            </span>
+        
+        </span>
+    </div>
+  </nav>
+</div>
+</div>
 {% endblock %}
