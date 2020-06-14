@@ -42,12 +42,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', # social login
 
     # my apps
     'accounts',
     'movies',
     'communities',
-    'bootstrap_pagination', 
+    'bootstrap_pagination',
+
+    # allauth => social login
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', 
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +140,25 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'accounts.User'
 
 YOUTUBE_API_KEY = 'AIzaSyBbJVfbqE7deJZJGeI32ehYHCTEWxAQ9r0'
+
+AUTHENTICATION_BACKENDS = {
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+}
+
+SITE_ID = 1 # 작성안할 시에 DoesNotExist at /admin/login 오류 메세지를 본다.
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+LOGIN_REDIRECT_URL ='/movies/'

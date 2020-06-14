@@ -12,7 +12,7 @@
     <div class="carousel-item active">
       <div class="d-flex">
       {% for movie1 in movies1 %}
-        <img src="https://image.tmdb.org/t/p/original/{{ movie1.poster_path }}" class="d-block w-25" alt="...">
+      <a href="{% url 'movies:detail' movie1.pk %}"><img src="https://image.tmdb.org/t/p/original/{{ movie1.poster_path }}" class="d-block w-25" alt="..."></a>
       {% endfor %}
       </div>
      
