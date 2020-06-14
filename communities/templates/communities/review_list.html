@@ -2,7 +2,7 @@
 
 {% block content %}
     {% for review in reviews %}
-        <h3><a href="{% url 'communities:review_detail' review.pk %}" class="text-dark text-decoration-none">제목 : {{ review.title }}</a></h3>
+        <h3><a href="{% url 'communities:review_detail' review.pk %}" class="text-decoration-none text-white">제목 : {{ review.title }}</a></h3>
         <hr>
     {% endfor %}
 {% endblock %}

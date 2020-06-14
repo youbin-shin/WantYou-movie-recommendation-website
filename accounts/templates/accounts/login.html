@@ -3,8 +3,10 @@
 {% block content %}
     <h2>로그인</h2>
     <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button>로그인</button>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+          </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 {% endblock %}

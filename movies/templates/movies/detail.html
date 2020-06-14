@@ -4,23 +4,17 @@
 {% block content %}
 <h1>{{ movie.title }} 페이지</h1>
 <div class="card mb-3">
-  <img src="https://image.tmdb.org/t/p/w500/{{ movie.backdrop_path }}" class="card-img-top" alt="영화 배경 포스터">
   
   <!-- youtube -->
-  <div id="link">My video</div>
+  {% if videoid %}
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe type="text/html" class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoid }}" frameborder="0"></iframe>
+  </div>
+  {% else %}
+  <img src="https://image.tmdb.org/t/p/w500/{{ movie.backdrop_path }}" class="card-img-top" alt="영화 배경 포스터">
+  {% endif %}
 
-  <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              </div>
-              <div class="modal-body">
-                  <iframe width="400" height="300" frameborder="0" allowfullscreen=""></iframe>
-              </div>
-          </div>
-      </div>
-</div>
+
   <div class="card-body">
     <h5 class="card-title">movie title : {{ movie.original_title }}</h5>
     <p class="card-text">{{ movie.overview }}</p>
@@ -40,7 +34,7 @@
     <i class="fas fa-heart fa-lg like-button" style="color: black;" data-id="{{ movie.pk }}"></i>
     {% endif %}
     <span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span>명이 이 글을 좋아합니다.
-    <a class="btn btn-primary" href="{% url 'movies:index' %}" class="btn btn-primary">뒤로 가기</a>
+    <a class="btn btn-primary" href="{% url 'movies:index' %}" class="btn btn-primary">영화 목록 보러가기</a>
   </div>
 </div>
 
@@ -68,21 +62,6 @@ likeButtonList.forEach(likeButton => {
  })
 })
 
-// youtube 트레일러 기능
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/jquery-1.10.1.min.js"></script>')</script>
-<script src="js/bootstrap.min.js"></script>
-<script>
-    $('#link').click(function () {
-        var src = 'http://www.youtube.com/v/FSi2fJALDyQ&amp;autoplay=1';
-        $('#myModal').modal('show');
-        $('#myModal iframe').attr('src', src);
-    });
-
-    $('#myModal button').click(function () {
-        $('#myModal iframe').removeAttr('src');
-    });
-</script>
 
 </script>
 

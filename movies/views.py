@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie, Genre
 from django.http import JsonResponse
 from django.core.paginator import Paginator
-
+import requests
 
 def index(request):
     movies1 = Movie.objects.filter().order_by('-popularity')[:4]
@@ -22,10 +22,29 @@ def index(request):
     return render(request, 'movies/index.html', context)
 
 
+def home(request):
+    return render(request, 'movies/home.html')
+
+
 def detail(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)
+    url = 'https://www.googleapis.com/youtube/v3/search'
+    params = {
+        'key': 'AIzaSyBbJVfbqE7deJZJGeI32ehYHCTEWxAQ9r0',
+        'part': 'snippet',
+        'type': 'video',
+        'q': movie.original_title,
+    }
+    response = requests.get(url, params)
+    response_dict = response.json()
+    # response_dict = response_dict['items']
+    youtube_items = response_dict['items']
+    # youtube_items = response_dict.id
+    videoid = youtube_items[2]['id']['videoId']
     context = {
+        'youtube_items': youtube_items,
         'movie': movie,
+        'videoid': videoid,
     }
     return render(request, 'movies/detail.html', context)
 

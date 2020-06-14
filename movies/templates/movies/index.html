@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h3 class="text-white">추천 서비스</h3>
 <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
@@ -56,6 +57,7 @@
 
 {% load bootstrap_pagination %}
 <div class="container mt-4 mb-4">
+  <h3 class="text-white">영화 목록 (평점순)</h3>
   <div class="row">
 {% for movie in page_obj %}
 <div class="card col-lg-3 col-sm-6 p-2">
@@ -64,7 +66,7 @@
     <h5 class="card-title">영화 제목: {{ movie.title }}</h5>
     <p class="card-text">인기도 : {{ movie.popularity }}</p>
     <p class="card-text"><small class="text-muted">평점 : {{ movie.vote_average }}</small></p>
-    <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-primary">Go somewhere</a>
+    <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-primary">영화 상세보기</a>
   </div>
 </div>
 

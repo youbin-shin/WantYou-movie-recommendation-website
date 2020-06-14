@@ -1,4 +1,4 @@
-# `완`t`유`(Wantyou) 최종 프로젝트
+# `Wan`t`You` 최종 프로젝트
 
 ## 프로젝트 소개
 
@@ -26,7 +26,28 @@
 
 ## 프로젝트 구조
 
+- 프로젝트 이름은 `WantYou` 입니다.
 
+- ~~를 이용하여 받은 JSON 데이터를 사용할 `` app이 있습니다.
+
+**movie community**
+
+- base.html
+
+- **accounts**
+
+  - login
+    - social login
+  - logout
+  - signup
+  - profile (관심장르 선택 페이지, 좋아요 했던 영화목록)
+
+- **movies**
+  - index.html 
+  - 로그인 한 경우 : 추천 서비스 기능 보이기
+    - 로그인 안한 경우 : movie list  좋아요 순으로 영화 목록 보이기
+  - movie_detail.html
+    - 예고편
 
 ## 팀원 정보 & 개발 역할 분담
 
@@ -36,37 +57,49 @@
 
 ### 개발 과정
 
-- 프로젝트 이름은 `WantYou` 입니다.
-
-- ~~를 이용하여 받은 JSON 데이터를 사용할 `` app이 있습니다.
+- 
 
   
 
-- **movie community**
-
-  - base.html
-
-  - **accounts**
-
-    - login
-      - social login
-    - logout
-    - signup
-    - profile (관심장르 선택 페이지, 좋아요 했던 영화목록)
-
-  - **movies**
-
-    - index.html 
-    - 로그인 한 경우 : 추천 서비스 기능 보이기
-      - 로그인 안한 경우 : movie list  좋아요 순으로 영화 목록 보이기
-    - movie_detail.html
-      - 예고편
+  
 
 
+### :honey_pot: Tip
+
+- Gitlab을 이용하여 작업 과정을 commit을 통해 기록하고 공유했다.
+
+  - git pull/clone 후 해야할 일 정리
+
+    1. 가상환경을 설정한다.
+
+      ```bash
+      $ python -m venv venv
+      $ source venv/Scripts/activate
+      (venv)
+      $ pip list
+      ```
+
+    2. 프로젝트에 requirements.txt를 통해 작업환경에 필요한 것을 설치한다.
+
+      ```bash
+      $ pip install -r requirements.txt
+      ```
+
+    3. migrate를 진행한다.
+
+    4. JSON 데이터를 받는다.
+
+      ```bash
+      $ python manage.py loaddata movies/moviedata.json
+      ```
 
 ## WantYou(완t유) 웹 서비스란?
 
 ### 핵심 기능
+
+- movie index 페이지에서 
+  - 인기순으로 1~4, 5~8, 9~12위의 영화 목록을 카로젤로 보여준다.
+  - 평점순으로 영화 리스트를 페이지네이션을 통해 보여준다.
 
 ##### 추천 서비스
 
@@ -106,3 +139,28 @@ JSON
   > https://blog.naver.com/cosmosjs/221715332150
 
   api.themoviedb.org/3/movie/{비디오id}/videos?api_key={Your key}
+  
+  api.themoviedb.org/3/movie/{비디오id}/videos?api_key={Your key}
+  
+  - youtube를 
+
+- JSON 형식의 데이터가 맞는지 확인해주는 사이트
+
+  데이터 형식이 맞는지 체크해준 뒤 정렬해준다.
+
+  > https://jsonformatter.curiousconcept.com/
+
+- 
+
+
+
+
+
+
+
+### 개선하고 싶은 기능
+
+- youtube trailer
+
+
+
