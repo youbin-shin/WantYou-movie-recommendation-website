@@ -4,6 +4,10 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 import requests
 
+def home(request):
+    return render(request, 'movies/home.html')
+
+
 def index(request):
     movies1 = Movie.objects.filter().order_by('-popularity')[:4]
     movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
@@ -22,10 +26,6 @@ def index(request):
     return render(request, 'movies/index.html', context)
 
 
-def home(request):
-    return render(request, 'movies/home.html')
-
-
 def detail(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)
     url = 'https://www.googleapis.com/youtube/v3/search'
@@ -33,7 +33,7 @@ def detail(request, movie_pk):
         'key': 'AIzaSyBbJVfbqE7deJZJGeI32ehYHCTEWxAQ9r0',
         'part': 'snippet',
         'type': 'video',
-        'q': movie.original_title,
+        'q': movie.original_title  + 'trailer',
     }
     response = requests.get(url, params)
     response_dict = response.json()

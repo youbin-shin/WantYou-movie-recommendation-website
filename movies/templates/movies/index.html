@@ -2,45 +2,66 @@
 
 {% block content %}
 <h3 class="text-white">추천 서비스</h3>
-<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-  </ol>
+
+<div id="carouselExampleCaptions" class="carousel slide mt-4" data-ride="carousel">
+ 
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active mt-4"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="1" class="mt-4"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="2" class="mt-4"></li>
+    </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
       <div class="d-flex">
       {% for movie1 in movies1 %}
-      <a href="{% url 'movies:detail' movie1.pk %}"><img src="https://image.tmdb.org/t/p/original/{{ movie1.poster_path }}" class="d-block w-25" alt="..."></a>
+        <div class="col">
+          <div class="row">
+            <img src="https://image.tmdb.org/t/p/original/{{ movie1.poster_path }}" class="d-block w-100" alt="...">
+          </div>
+          <div class="row">
+            <a href="{% url 'movies:detail' movie1.pk %}" class="btn btn-primary">영화 상세보기</a>
+          </div>
+        </div>
       {% endfor %}
       </div>
-     
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      <div class="d-flex m-4 p-2 text-white">
+        <h5>인기 1~4위</h5>
       </div>
     </div>
     <div class="carousel-item">
+      
       <div class="d-flex">
       {% for movie2 in movies2 %}
-        <img src="https://image.tmdb.org/t/p/original/{{ movie2.poster_path }}" class="d-block w-25" alt="...">
+      <div class="col">
+        <div class="row">
+          <img src="https://image.tmdb.org/t/p/original/{{ movie2.poster_path }}" class="d-block w-100" alt="...">
+        </div>
+        <div class="row">
+          <a href="{% url 'movies:detail' movie2.pk %}" class="btn btn-primary">영화 상세보기</a>
+        </div>
+      </div>
       {% endfor %}
       </div>
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <div class="d-flex m-4 p-2 text-white">
+        <h5>인기 5~8위</h5>
       </div>
     </div>
     <div class="carousel-item">
       <div class="d-flex">
       {% for movie3 in movies3 %}
-        <img src="https://image.tmdb.org/t/p/original/{{ movie3.poster_path }}" class="d-block w-25" alt="...">
+      <div class="col">
+        <div class="row">
+          <img src="https://image.tmdb.org/t/p/original/{{ movie3.poster_path }}" class="d-block w-100" alt="...">
+        </div>
+        <div class="row">
+          <a href="{% url 'movies:detail' movie3.pk %}" class="btn btn-primary">영화 상세보기</a>
+        </div>
+      </div>
       {% endfor %}
       </div>
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+
+      <div class="d-flex m-4 p-2 text-white">
+        <h5>인기 9~12위</h5>
       </div>
     </div>
   </div>
