@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-<h3 class="text-white pt-3">추천 서비스</h3>
+<div class="container" style="background-color: black;">
+<h3 class="text-white pt-3 d-flex justify-content-center">오늘의 추천 영화</h3>
 
 <div id="carouselExampleCaptions" class="carousel slide mt-4" data-ride="carousel">
  
@@ -19,7 +19,7 @@
           <div class="row">
             <img src="https://image.tmdb.org/t/p/original/{{ movie1.poster_path }}" class="d-block w-100" alt="...">
           </div>
-          <div class="row">
+          <div class="row d-flex justify-content-center mt-2">
             <a href="{% url 'movies:detail' movie1.pk %}" class="btn btn-primary">영화 상세보기</a>
           </div>
         </div>
@@ -34,10 +34,10 @@
       <div class="d-flex">
       {% for movie2 in movies2 %}
       <div class="col">
-        <div class="row">
+        <div class="row ">
           <img src="https://image.tmdb.org/t/p/original/{{ movie2.poster_path }}" class="d-block w-100" alt="...">
         </div>
-        <div class="row">
+        <div class="row d-flex justify-content-center mt-2">
           <a href="{% url 'movies:detail' movie2.pk %}" class="btn btn-primary">영화 상세보기</a>
         </div>
       </div>
@@ -54,7 +54,7 @@
         <div class="row">
           <img src="https://image.tmdb.org/t/p/original/{{ movie3.poster_path }}" class="d-block w-100" alt="...">
         </div>
-        <div class="row">
+        <div class="row d-flex justify-content-center mt-2">
           <a href="{% url 'movies:detail' movie3.pk %}" class="btn btn-primary">영화 상세보기</a>
         </div>
       </div>
@@ -79,16 +79,19 @@
 
 {% load bootstrap_pagination %}
 <div class="container mt-4 mb-4">
-  <h3 class="text-white">영화 목록 (평점순)</h3>
+  <h3 class="text-white d-flex justify-content-center">영화 목록 (평점순)</h3>
   <div class="row">
 {% for movie in page_obj %}
-<div class="card col-lg-3 col-sm-6 p-2">
-  <img src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" class="card-img-top" alt="...">
+<div class="card col-lg-3 col-sm-6 p-2 my-4 border border-white rounded" style="background-color: black;">
+  <p class="card-text d-flex justify-content-end mr-2"><small class="text-white">평점 : {{ movie.vote_average }}</small></p>
+  <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-primary border-0" style="background-color: black;"><img src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" class="card-img-top" alt="..."></a>
   <div class="card-body">
-    <h5 class="card-title">영화 제목: {{ movie.title }}</h5>
+    <h5 class="card-title text-white"> {{ movie.title }}</h5>
+
+    
     <p class="card-text">인기도 : {{ movie.popularity }}</p>
-    <p class="card-text"><small class="text-muted">평점 : {{ movie.vote_average }}</small></p>
-    <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-primary">영화 상세보기</a>
+
+    <!-- <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-primary">영화 상세보기</a> -->
   </div>
 </div>
 
@@ -99,8 +102,8 @@
 <div class="d-flex justify-content-center">
   {% bootstrap_paginate page_obj range=5 show_prev_next="false" show_first_last="true" %}
   <nav aria-label="Page navigation example">
-    <div class="pagination">
-        <span class="step-links">
+    <div class="pagination" >
+        <span class="step-links" >
        
             {% if page_obj.has_previous %}
                 <a href="?page=1"></a>
@@ -122,4 +125,5 @@
   </nav>
 </div>
 </div>
+
 {% endblock %}
