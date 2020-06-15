@@ -2,19 +2,24 @@
 
 {% block content %}
 {% for review in reviews %}
-<div class="container">
+<div class="container" style="width:70%">
     <div class="row">
-        <div class="card my-4 col align-self-center">
-            <div class="card-header d-flex justify-content-end">{{ review.user }}님이 작성</div>
+        <div class="card my-4 p-0 col align-self-center">
+            
+            <div class="card-header d-flex justify-content-between">
+                <h3 class="card-title text-center">{{ review.title }}</h3>
+                <h5 class="card-title text-center"><small>{{ review.user }}님이 작성</small></h5>
+            </div>
             <div class="card-body">
-            <h5 class="card-title text-center">{{ review.title }}</h5>
+            
+            <p class="card-text">영화 제목 : {{ review.movie_title }}</p>
             <p class="card-text">{{ review.content }}</p>
-            <a href="{% url 'communities:review_detail' review.pk %}" class="btn btn-primary">자세히 보기</a>
+            <div class= "d-flex justify-content-end">
+                <a href="{% url 'communities:review_detail' review.pk %}" class="btn btn-primary">자세히 보기</a>
+            </div>
             </div>
             <div class="card-footer text-muted d-flex justify-content-end">
                 {{ review.created_at.date }} 에 작성됨.
-            </div>
-            <div class="card-footer text-muted d-flex justify-content-end">
                 {{ review.updated_at.date }} 에 수정됨.
             </div>
             
