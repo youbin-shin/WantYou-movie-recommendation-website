@@ -63,12 +63,13 @@
       <p>영화 개봉일 : {{ movie.release_date }}</p>
 
       <p>영화 언어 : {{ movie.original_language }}</p>
-      <p>영화 장르 : {{ response_dict }}
-        {% for genre in movie.genres.all %}
-        <!-- 장르 이름 안뜬다!! 에러 고치기 -->
-          {{ genre.name }}
-        {% endfor %}
+      <!-- <div class="d-flex"> -->
+      <p>장르 : 
+      {% for genre in movie.genres %}
+        {{ genre }}
+      {% endfor %}
       </p>
+      <!-- </div> -->
       {% if user in movie.like_users.all %}
       <i class="fas fa-heart fa-lg like-button" style="color: crimson;" data-id="{{ movie.pk }}"></i>
       {% else %}

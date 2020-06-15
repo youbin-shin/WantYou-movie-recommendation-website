@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie, Genre
+from .models import Movie
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import requests
@@ -45,7 +45,8 @@ def detail(request, movie_pk):
         'youtube_items': youtube_items,
         'movie': movie,
         'videoid': videoid,
-        'response': response
+        'response': response,
+
     }
     return render(request, 'movies/detail.html', context)
 
