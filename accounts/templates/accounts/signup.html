@@ -1,10 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>회원가입</h2>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button>회원가입</button>
-    </form>
+<div>
+    <h1 class="signup text-center">회원가입</h1>
+    <div class="container formdiv">
+        <form action="" method="POST">
+            <div class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-warning float-right mb-4">회원가입</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    label {
+        color: white;
+    }
+    
+    .formdiv {
+        padding: 0 15%;
+    }
+
+    .signup {
+        color: rgb(250, 236, 250);
+    }
+
+    input {
+        width: 100%;
+    }
+
+    span {
+        color: thistle;
+    }
+
+    li {
+        color: thistle;
+    }
+</style>
 {% endblock %}

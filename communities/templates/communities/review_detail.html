@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-md-12">
               <div class="page-header">
-                <h1><small class="pull-right">{{ review.comment_set.count }} 개의 댓글</small> Comments </h1>
+                <h1><small class="pull-right">총 {{ review.comment_set.count }} 개의 댓글</small> Comments </h1>
               </div> 
                 <div class="">
                    
@@ -48,7 +48,7 @@
                         </a>
                         <h3 class=" pb-2 mt-2">{{ comment.user.username }}님의 글</h3>
                     </div>
-                        <p>{{ comment.content }}</p>
+                        <h4>{{ comment.content }}</h4>
                             {% if comment.user == request.user %}
                                 <form action="{% url 'communities:comments_delete' review.pk comment.pk %}" method="POST">
                                     {% csrf_token %}

@@ -2,42 +2,83 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<h1>{{ movie.title }} 페이지</h1>
-<div class="card mb-3">
-  
-  <!-- youtube -->
-  {% if videoid %}
-  <div class="embed-responsive embed-responsive-16by9">
-    <iframe type="text/html" class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoid }}" frameborder="0"></iframe>
-  </div>
-  {% else %}
-  <img src="https://image.tmdb.org/t/p/w500/{{ movie.backdrop_path }}" class="card-img-top" alt="영화 배경 포스터">
-  {% endif %}
-
-
-  <div class="card-body">
-    <h5 class="card-title">movie title : {{ movie.original_title }}</h5>
-    <p class="card-text">{{ movie.overview }}</p>
-    <p>영화 인기도 : {{ movie.popularity }}</p>
-    <p>영화 개봉일 : {{ movie.release_date }}</p>
-    <p>영화 평점 : {{ movie.vote_average }}</p>
-    <p>영화 언어 : {{ movie.original_language }}</p>
-    <p>영화 장르 :
-      {% for genre in movie.genres.all %}
-      <!-- 장르 이름 안뜬다!! 에러 고치기 -->
-        {{ genre.name }}
-      {% endfor %}
-    </p>
-    {% if user in movie.like_users.all %}
-    <i class="fas fa-heart fa-lg like-button" style="color: crimson;" data-id="{{ movie.pk }}"></i>
+<div class="container mt-4 text-white" style="background-color: black; width:60%;">
+  <h1 class="text-white mb-4 ml-4">{{ movie.title }}</h1>
+  <div class="card mb-3">
+    
+    <!-- youtube -->
+    {% if videoid %}
+    <div class="embed-responsive embed-responsive-16by9">
+      <iframe type="text/html" class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoid }}" frameborder="0"></iframe>
+    </div>
     {% else %}
-    <i class="fas fa-heart fa-lg like-button" style="color: black;" data-id="{{ movie.pk }}"></i>
+    <img src="https://image.tmdb.org/t/p/w500/{{ movie.backdrop_path }}" class="card-img-top" alt="영화 배경 포스터">
     {% endif %}
-    <span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span>명이 이 글을 좋아합니다.
-    <a class="btn btn-primary" href="{% url 'movies:index' %}" class="btn btn-primary">영화 목록 보러가기</a>
+
+
+    <div class="card-body " style="background-color: black;">
+      <div class="d-flex justify-content-between">
+        <h1 class="card-title">{{ movie.original_title }}</h1>
+        <p>영화 평점 : {{ movie.vote_average }}</p>
+        {% if movie.vote_average == 10 %}
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+        {% elif movie.vote_average > 8 %}
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star "></h1>
+          {% elif movie.vote_average > 6 %}
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star "></h1>
+          <h1 class="fa fa-star "></h1>
+          {% elif movie.vote_average > 4 %}
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star "></h1>
+          <h1 class="fa fa-star "></h1>
+          <h1 class="fa fa-star "></h1>
+          {% elif movie.vote_average > 2 %}
+          <h1 class="fa fa-star checked"></h1>
+          <h1 class="fa fa-star "></h1>
+          <h1 class="fa fa-star "></h1>
+          <h1 class="fa fa-star "></h1>
+          <h1 class="fa fa-star "></h1>
+          {% else %}
+          <h1 class="fa fa-star"></h1>
+          <h1 class="fa fa-star"></h1>
+          <h1 class="fa fa-star"></h1>
+          <h1 class="fa fa-star"></h1>
+          <h1 class="fa fa-star"></h1>
+          {% endif %}
+      </div>
+      <p class="card-text">{{ movie.overview }}</p>
+      <p>영화 인기도 : {{ movie.popularity }}</p>
+      <p>영화 개봉일 : {{ movie.release_date }}</p>
+
+      <p>영화 언어 : {{ movie.original_language }}</p>
+      <p>영화 장르 : {{ response_dict }}
+        {% for genre in movie.genres.all %}
+        <!-- 장르 이름 안뜬다!! 에러 고치기 -->
+          {{ genre.name }}
+        {% endfor %}
+      </p>
+      {% if user in movie.like_users.all %}
+      <i class="fas fa-heart fa-lg like-button" style="color: crimson;" data-id="{{ movie.pk }}"></i>
+      {% else %}
+      <i class="fas fa-heart fa-lg like-button" style="color: white;" data-id="{{ movie.pk }}"></i>
+      {% endif %}
+      <span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span>명이 이 영화를 찜했습니다.
+      <a class="btn btn-primary float-right" href="{% url 'movies:index' %}" class="btn btn-primary">목록</a>
+    </div>
   </div>
 </div>
-
 
 <script>
   // 좋아요 기능
@@ -64,6 +105,10 @@ likeButtonList.forEach(likeButton => {
 
 
 </script>
-
+<style>
+  .checked {
+  color: orange;
+}
+</style>
 
 {% endblock %}

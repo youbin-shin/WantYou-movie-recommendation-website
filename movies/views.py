@@ -45,6 +45,7 @@ def detail(request, movie_pk):
         'youtube_items': youtube_items,
         'movie': movie,
         'videoid': videoid,
+        'response': response
     }
     return render(request, 'movies/detail.html', context)
 

@@ -2,14 +2,34 @@
 {% load socialaccount %}
 
 {% block content %}
-    <h2>로그인</h2>
-    <form action="" method="POST">
-        <div class="form-group">
-            {% csrf_token %}
-            {{ form.as_p }}
-        </div>
-        <button type="submit" class="btn btn-light">Submit</button>
-        <a href="{% provider_login_url 'google' %}" class="btn btn-primary">Google Login</a>
-    </form>
-
+<div class="login-form" style="position: static; top: 50%;">
+    <h1 class="login text-center">로그인</h1>
+    <div class="container formdiv">
+        <form action="" method="POST">
+            <div class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-light float-right ml-2">로그인</button>
+                <a href="{% provider_login_url 'google' %}" class="btn btn-primary float-right">Google Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    label {
+        color: white;
+    }
+    .formdiv {
+        padding: 0 15%;
+    }
+    .login {
+        color: rgb(250, 236, 250);
+    }
+    .login-form {
+        padding: 0 20%;
+    }
+    input {
+        width: 100%;
+    }
+</style>
 {% endblock %}

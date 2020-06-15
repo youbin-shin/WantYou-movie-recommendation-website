@@ -2,9 +2,39 @@
 
 {% load bootstrap4 %}
 {% block content %}
+<h1 class="update text-center">회원 정보 수정</h1>
+<div class="container formdiv">
     <form action="" method="POST">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <button class="btn btn-primary">수정</button>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-info float-right mb-4">수정</button>
+        </div>
     </form>
+</div>
+
+<style>
+    .update {
+        color: rgb(250, 236, 250);
+    }
+    label {
+        color: white;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    span {
+        color: thistle;
+    }
+
+    li {
+        color: thistle;
+    }
+
+    strong {
+        color: thistle;
+    }
+</style>
 {% endblock %}

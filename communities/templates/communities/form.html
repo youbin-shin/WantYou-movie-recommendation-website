@@ -1,11 +1,37 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
-<div class="container">
+<div class="container formdiv">
     <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button>작성</button>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary float-right  mb-4">작성</button>
+
+        </div>
     </form>
 </div>
+
+<style>
+    label {
+        color: white;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    textarea {
+        width: 100%;
+    }
+
+    .formdiv {
+        padding: 0 15%;
+    }
+
+    span {
+        color: thistle;
+    }
+</style>
 {% endblock %}

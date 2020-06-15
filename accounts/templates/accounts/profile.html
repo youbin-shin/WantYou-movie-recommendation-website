@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<div class="sidenav" style="background-image:url(https://user-images.githubusercontent.com/60081201/84614165-4161a300-af00-11ea-8207-452494f76cff.png); background-position: center; align-self: center;">
-    <div class="login-main-text" >
-    </div>
+<div class="sidenav" style="background-image:url(https://user-images.githubusercontent.com/60081201/84614165-4161a300-af00-11ea-8207-452494f76cff.png); background-position: center;">
 </div>
-<div class="main">
-    <div class="col-md-10 col-sm-12">
+<div class="main container">
+    <div class="col-md-10 col-sm-12" style="position: relative; top:120px; left:150px;">
         <h1 class="text-white">{{ user.username }}님</h1>
         <h2 class="text-white">안녕하세요~</h2>
         <hr>
@@ -19,11 +16,11 @@
             </a>
             {% endfor %}
             {% else %}
-            <p>현재 작성한 글이 없습니다.</p>
+            <p style="color: thistle;">현재 작성한 글이 없습니다.</p>
             <a href="{% url 'communities:new_review' %}" class="text-white btn btn-secondary">글 쓰러가기</a>
             {% endif %}
             <hr>
-            <h3 class="text-white">좋아요한 영화 목록</h3>
+            <h3 class="text-white">찜한 영화 목록</h3>
         {% if user.like_movies.all %}
         {% for movie in user.like_movies.all %}
         <a href="{% url 'movies:detail' movie.pk %}">
@@ -31,37 +28,36 @@
         </a>
         {% endfor %}
         {% else %}
-        <p>현재 좋아요한 영화가 없습니다.</p>
+        <p style="color: thistle;">현재 찜한 영화가 없습니다.</p>
         <a href="{% url 'movies:index' %}" class="text-white btn btn-secondary">영화목록으로 가기</a>
         {% endif %}
         <hr>
-        <div class="d-flex justify-content-end">
-            {% with user_followers=user.followers.all %}
-                {% if request.user == user %}
-                    <a href="{% url 'accounts:update' %}" class="text-white btn btn-dark mt-4 mr-2">정보 수정</a>
-                    <form action="{% url 'accounts:delete' %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-warning mt-4">회원 탈퇴</button>
-                    </form>
-                {% endif %}
-            {% endwith %}
-        </div>
         
+    </div>
+    <div class="d-flex justify-content-center">
+        {% with user_followers=user.followers.all %}
+            {% if request.user == user %}
+                <a href="{% url 'accounts:update' %}" class="text-white btn btn-dark mt-4 mr-2">정보 수정</a>
+                <form action="{% url 'accounts:delete' %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-warning mt-4">회원 탈퇴</button>
+                </form>
+            {% endif %}
+        {% endwith %}
     </div>
 </div>
 
 <style>
-    
-    
     .main-head{
-        height: 150px;
-        background: #FFF;
-       
+        height: 150px;       
     }
     
     .sidenav {
-        height: 100%;
-        padding-top: 20px;
+        height: 80%;
+        margin-top: 100px;
+        width:100px;
+
+
     }
     
     
@@ -70,7 +66,7 @@
     }
     
     @media screen and (max-height: 450px) {
-        .sidenav {padding-top: 15px;}
+        .sidenav {top: 100px;}
     }
 
     @media screen and (min-width: 768px){
@@ -90,4 +86,3 @@
 </style>
     
 {% endblock %}
-
