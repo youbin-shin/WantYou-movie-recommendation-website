@@ -14,15 +14,30 @@ def home(request):
 
 
 def index(request):
+    # 영화 검색 기능
+    search_movies = None
+    query = None
+    search_movie_num = 0
+    if 'q' in request.GET:
+        query = request.GET.get('q')
+        if query == '' :
+            messages.warning(request, '검색창에 입력해주세요.')
+        else:
+            search_movies = Movie.objects.all().filter(Q(title__contains=query) | Q(original_title__contains=query))
+            if search_movies:
+                search_movie_num = len(search_movies)
+            else:
+                messages.warning(request, '검색된 영화가 없습니다.')
     user_like_movie_data = 0
     like_data_dict = 0
     sorted_data = 0
+    sorted_data1 = 0
+    sorted_data2 = 0
     if request.user.is_authenticated:
         user = request.user
         user_like_movie_data = user.like_movies.all()
         like_data_dict = {}
         lendata = len(user_like_movie_data)
-        sorted_data = 0
         if lendata-1 >= 0:
             for movie in user_like_movie_data:
                 for genre in movie.genres:
@@ -35,17 +50,8 @@ def index(request):
         if len(sorted_data)>= 2:
             sorted_data1 = sorted_data[0][0]
             sorted_data2 = sorted_data[1][0]
-        elif len(sorted_data) ==1:
+        elif len(sorted_data) == 1:
             sorted_data1 = sorted_data[0]
-     # 영화 검색 기능
-    search_movies = None
-    query = None
-    search_movie_num = 0
-    if 'q' in request.GET:
-        query = request.GET.get('q')
-        search_movies = Movie.objects.all().filter(Q(title__contains=query) | Q(original_title__contains=query))
-    if search_movies:
-        search_movie_num = len(search_movies)
     
     movies = Movie.objects.filter().order_by('-vote_average')
     allmovies = Movie.objects.all().order_by('-popularity')
@@ -79,15 +85,19 @@ def index(request):
             movies1 = usermovie1_2[:4]
             movies2 = usermovie1[:4]
             movies3 = usermovie2[:4]
-        else:
+        elif len(sorted_data)>0:
             movies1 = usermovie1[:4]
             movies2 = usermovie1[4:8]
             movies3 = usermovie1[8:12]
+        else:
+            movies1 = Movie.objects.filter().order_by('-popularity')[:4]
+            movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
+            movies3 = Movie.objects.filter().order_by('-popularity')[8:12]
     else:
         movies1 = Movie.objects.filter().order_by('-popularity')[:4]
         movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
         movies3 = Movie.objects.filter().order_by('-popularity')[8:12]
-    
+    len_sorted_data = len(sorted_data)
     paginator = Paginator(movies, 12) # 12개씩 자르겠다!
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -102,8 +112,9 @@ def index(request):
         'search_movies': search_movies,
         'query': query,
         'search_movie_num': search_movie_num,
-
-
+        'len_sorted_data': len_sorted_data,
+        'sorted_data1': sorted_data1,
+        'sorted_data2' : sorted_data2,
     }
     return render(request, 'movies/index.html', context)
 

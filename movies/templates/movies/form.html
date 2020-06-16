@@ -2,6 +2,13 @@
 {% load bootstrap4 %}
 
 {% block content %}
+{% if messages %}
+<div class="messages">
+  {% for message in messages %}
+    <div class="alert alert-primary" role="alert">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
 <div class="container formdiv">
     <form action="" method="POST">
         <h1 class="text-center">영화 수정 페이지</h1>

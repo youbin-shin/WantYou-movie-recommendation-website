@@ -4,7 +4,7 @@
 <div class="sidenav" style="background-image:url(https://user-images.githubusercontent.com/60081201/84614165-4161a300-af00-11ea-8207-452494f76cff.png); background-position: center;">
 </div>
 <div class="main container">
-    <div class="col-md-10 col-sm-12" style="position: relative; top:120px; left:150px;">
+    <div class="col-md-10 col-sm-12" style="position: relative; top:100px; left:120px;">
         <h1 class="text-white">{{ user.username }}님</h1>
         <h2 class="text-white">안녕하세요~</h2>
         <hr>
@@ -22,20 +22,17 @@
             <hr>
             <h3 class="text-white">찜한 영화 목록</h3>
         {% if user.like_movies.all %}
-        {% for movie in user.like_movies.all %}
-        <a href="{% url 'movies:detail' movie.pk %}">
-            <p>{{ movie.title }}</p>
-        </a>
-        {% endfor %}
+            {% for movie in user.like_movies.all %}
+            <a href="{% url 'movies:detail' movie.pk %}">
+                <p>{{ movie.title }}</p>
+            </a>
+            {% endfor %}
         {% else %}
         <p style="color: thistle;">현재 찜한 영화가 없습니다.</p>
         <a href="{% url 'movies:index' %}" class="text-white btn btn-secondary">영화목록으로 가기</a>
         {% endif %}
         <hr>
-        
-    </div>
-    <div class="d-flex justify-content-center">
-        {% with user_followers=user.followers.all %}
+        <div class="d-flex justify-content-center mb-4">
             {% if request.user == user %}
                 <a href="{% url 'accounts:update' %}" class="text-white btn btn-dark mt-4 mr-2">정보 수정</a>
                 <form action="{% url 'accounts:delete' %}" method="POST">
@@ -43,8 +40,9 @@
                     <button class="btn btn-warning mt-4">회원 탈퇴</button>
                 </form>
             {% endif %}
-        {% endwith %}
+        </div>
     </div>
+
 </div>
 
 <style>
@@ -76,7 +74,7 @@
     
         .sidenav{
             width: 40%;
-            position: fixed;
+            position: absolute;
             z-index: 1;
             top: 0;
             left: 0;

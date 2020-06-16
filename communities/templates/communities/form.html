@@ -2,6 +2,14 @@
 {% load bootstrap4 %}
 
 {% block content %}
+{% if messages %}
+<div class="messages">
+  {% for message in messages %}
+    <div class="alert alert-success" role="alert">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
 <div class="container formdiv">
     <form action="" method="POST">
         <div class="form-group">
