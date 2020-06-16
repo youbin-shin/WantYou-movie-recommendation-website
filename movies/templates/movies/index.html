@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  {{ user_like_movie_data }}
-  <p>sorted_data{{ sorted_data}} </p>
-{% endif %}
-{{ like_data_dict }}
 
 <div class="container" style="background-color: black;">
+  {% if request.user.is_superuser == 1 %}
+  <a class="btn btn-info" href="{% url 'movies:movie_create' %}">영화 추가하기</a>
+  {% endif %}
   <!-- 검색기능 -->
 <form class="d-flex justify-content-end" action="{% url 'movies:index' %}" method="get">
   {% csrf_token %}
@@ -18,7 +16,7 @@
   {% if search_movie_num %}
   <h2 class="text text-white">{{search_movie_num}}개의 영화가 있습니다.</h2>
   {% else %}
-  <h2 class="text text-white">영화를 찾을 수 없습니다.</h2>
+  <!-- <h2 class="text text-white">영화를 찾을 수 없습니다.</h2> -->
   {% endif %}
 </div>
 <div class="row mx-auto">
@@ -58,8 +56,13 @@
       {% endfor %}
       </div>
       <div class="d-flex m-4 p-2 text-white">
+        {% if not user.is_authenticated %}
         <h5>인기 1~4위</h5>
+        {% else %}
+        <h5>내가 좋아하는 장르 {{ sorted_data1 }}, {{ sorted_data2 }}관련 영화</h5>
+        {% endif %}
       </div>
+
     </div>
     <div class="carousel-item">
       
@@ -76,7 +79,12 @@
       {% endfor %}
       </div>
       <div class="d-flex m-4 p-2 text-white">
+        {% if not user.is_authenticated %}
+        
         <h5>인기 5~8위</h5>
+        {% else %}
+        <h5>내가 좋아하는 장르 {{ sorted_data1 }} 관련 영화</h5>
+        {% endif %}
       </div>
     </div>
     <div class="carousel-item">
@@ -94,7 +102,12 @@
       </div>
 
       <div class="d-flex m-4 p-2 text-white">
+        {% if not user.is_authenticated %}
+        
         <h5>인기 9~12위</h5>
+        {% else %}
+        <h5>내가 좋아하는 장르 {{ sorted_data2 }} 관련 영화</h5>
+        {% endif %}
       </div>
     </div>
   </div>

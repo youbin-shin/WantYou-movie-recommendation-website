@@ -6,6 +6,8 @@ from .forms import MovieForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 import requests
+from django.contrib import messages
+
 
 def home(request):
     return render(request, 'movies/home.html')
@@ -30,7 +32,11 @@ def index(request):
                         like_data_dict[genre] = 1
     
         sorted_data = sorted(like_data_dict.items(), key = lambda x: x[1], reverse=True)
-    
+        if len(sorted_data)>= 2:
+            sorted_data1 = sorted_data[0][0]
+            sorted_data2 = sorted_data[1][0]
+        elif len(sorted_data) ==1:
+            sorted_data1 = sorted_data[0]
      # 영화 검색 기능
     search_movies = None
     query = None
@@ -40,11 +46,48 @@ def index(request):
         search_movies = Movie.objects.all().filter(Q(title__contains=query) | Q(original_title__contains=query))
     if search_movies:
         search_movie_num = len(search_movies)
-
-    movies1 = Movie.objects.filter().order_by('-popularity')[:4]
-    movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
-    movies3 = Movie.objects.filter().order_by('-popularity')[8:12]
+    
     movies = Movie.objects.filter().order_by('-vote_average')
+    allmovies = Movie.objects.all().order_by('-popularity')
+    usermovie1_2 = []
+    usermovie1 = []
+    usermovie2 = []
+    if request.user.is_authenticated:
+        if len(sorted_data)>= 2:
+            cnt = 0
+            for allmovie in allmovies:
+                if (sorted_data1 in allmovie.genres) and (sorted_data2 in allmovie.genres) and cnt<5:
+                    usermovie1_2.append(allmovie)
+                    cnt = cnt + 1
+        cnt = 0
+        for allmovie in allmovies:
+            for genre in allmovie.genres:
+                if (sorted_data1 in genre) and cnt<13:
+                    if allmovie not in usermovie1_2:
+                        usermovie1.append(allmovie)
+                        cnt = cnt + 1
+        cnt = 0
+        for allmovie in allmovies:
+            for genre in allmovie.genres:
+                if  (sorted_data2 in genre) and cnt<13:
+                    if allmovie not in usermovie1_2:
+                        usermovie2.append(allmovie)
+                        cnt = cnt + 1
+        
+    if request.user.is_authenticated:
+        if len(sorted_data)>= 2: 
+            movies1 = usermovie1_2[:4]
+            movies2 = usermovie1[:4]
+            movies3 = usermovie2[:4]
+        else:
+            movies1 = usermovie1[:4]
+            movies2 = usermovie1[4:8]
+            movies3 = usermovie1[8:12]
+    else:
+        movies1 = Movie.objects.filter().order_by('-popularity')[:4]
+        movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
+        movies3 = Movie.objects.filter().order_by('-popularity')[8:12]
+    
     paginator = Paginator(movies, 12) # 12개씩 자르겠다!
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -56,10 +99,11 @@ def index(request):
         'movies3' : movies3,
         'user_like_movie_data': user_like_movie_data,
         'like_data_dict' : like_data_dict,
-        'sorted_data':sorted_data,
         'search_movies': search_movies,
         'query': query,
-        'search_movie_num': search_movie_num
+        'search_movie_num': search_movie_num,
+
+
     }
     return render(request, 'movies/index.html', context)
 
@@ -134,5 +178,20 @@ def update(request, movie_pk):
     context = {
         'form': form,
         'movie': movie,
+    }
+    return render(request, 'movies/form.html', context)
+
+
+def movie_create(request):
+    if request.method == 'POST':
+        form = MovieForm(request.POST)
+        if form.is_valid():
+            movie = form.save()
+            return redirect('movies:detail', movie.pk)
+        messages.warning(request, '다시 쓰세요.')
+    else:
+        form = MovieForm()
+    context = {
+        'form': form,
     }
     return render(request, 'movies/form.html', context)
