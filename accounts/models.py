@@ -6,4 +6,4 @@ from movies.models import Movie
 
 # Create your models here.
 class User(AbstractUser):
-    movie_picks = models.ManyToManyField(Movie, related_name='pick')
+    pass
