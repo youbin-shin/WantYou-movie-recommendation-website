@@ -2,9 +2,36 @@
 {% load bootstrap4 %}
 
 {% block content %}
+<div class="container formdiv">
     <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button>작성</button>
+        <h1 class="text-center">영화 수정 페이지</h1>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-warning float-right  mb-4">수정하기</button>
+        </div>
     </form>
+</div>
+
+<style>
+    label {
+        color: white;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    textarea {
+        width: 100%;
+    }
+
+    .formdiv {
+        padding: 0 15%;
+    }
+
+    h1 {
+        color: thistle;
+    }
+</style>
 {% endblock %}

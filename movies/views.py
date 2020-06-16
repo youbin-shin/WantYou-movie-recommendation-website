@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie
-from django.http import JsonResponse
 from django.db.models import Q # search 기능
+from django.http import JsonResponse
+from .forms import MovieForm
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 import requests
 
@@ -12,6 +14,7 @@ def home(request):
 def index(request):
     user_like_movie_data = 0
     like_data_dict = 0
+    sorted_data = 0
     if request.user.is_authenticated:
         user = request.user
         user_like_movie_data = user.like_movies.all()
@@ -26,15 +29,17 @@ def index(request):
                     else:
                         like_data_dict[genre] = 1
     
-    sorted_data = sorted(like_data_dict.items(), key = lambda x: x[1], reverse=True)
+        sorted_data = sorted(like_data_dict.items(), key = lambda x: x[1], reverse=True)
     
      # 영화 검색 기능
     search_movies = None
     query = None
+    search_movie_num = 0
     if 'q' in request.GET:
         query = request.GET.get('q')
         search_movies = Movie.objects.all().filter(Q(title__contains=query) | Q(original_title__contains=query))
-    search_movie_num = len(search_movies)
+    if search_movies:
+        search_movie_num = len(search_movies)
 
     movies1 = Movie.objects.filter().order_by('-popularity')[:4]
     movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
@@ -100,3 +105,34 @@ def like(request, movie_pk):
         'liked' : liked,
     }
     return JsonResponse(context)
+
+
+
+@login_required
+def delete(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if request.user.is_superuser != 1:
+        return redirect('movies:index')
+    else:
+        movie = Movie.objects.get(pk=movie_pk)
+        movie.delete()
+    return redirect('movies:index')
+
+
+@login_required
+def update(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if request.user.is_superuser != 1:
+        return redirect('movies:index')
+    if request.method == 'POST':
+        form = MovieForm(request.POST, instance=movie)
+        if form.is_valid():
+            form.save()
+            return redirect('movies:detail', movie.pk)
+    else:
+        form = MovieForm(instance=movie)
+    context = {
+        'form': form,
+        'movie': movie,
+    }
+    return render(request, 'movies/form.html', context)
