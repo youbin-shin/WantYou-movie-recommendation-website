@@ -31,8 +31,8 @@ def index(request):
     user_like_movie_data = 0
     like_data_dict = 0
     sorted_data = 0
-    sorted_data1 = 0
-    sorted_data2 = 0
+    sorted_data1 = ""
+    sorted_data2 = ""
     if request.user.is_authenticated:
         user = request.user
         user_like_movie_data = user.like_movies.all()
@@ -97,7 +97,11 @@ def index(request):
         movies1 = Movie.objects.filter().order_by('-popularity')[:4]
         movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
         movies3 = Movie.objects.filter().order_by('-popularity')[8:12]
-    len_sorted_data = len(sorted_data)
+    if sorted_data:
+        len_sorted_data = len(sorted_data)
+    else:
+        len_sorted_data = 0
+
     paginator = Paginator(movies, 12) # 12개씩 자르겠다!
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

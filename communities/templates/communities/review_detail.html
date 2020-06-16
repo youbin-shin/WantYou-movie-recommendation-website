@@ -2,9 +2,6 @@
 
 {% block content %}
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
 <div class="container">
@@ -12,14 +9,17 @@
         <div class="card my-4 col align-self-center">
             <div class="card-header d-flex justify-content-end">{{ review.user }}님이 작성</div>
             <div class="card-body">
-            <h5 class="card-title text-center">{{ review.title }}</h5>
-            <p class="card-text">영화 제목 : {{ review.movie_title }}</p>
-            <p class="card-text">{{ review.content }}</p>
-
+            <h1 class="card-title text-center">{{ review.title }}</h1>
+            <hr>
+            <h3 class="card-text ml-3">{{ review.movie_title }}</h3>
+            <hr>
+            <div class="container m-3">
+                <p class="card-text">{{ review.content }}</p>
+            </div>
+            
             </div>
             <div class="card-footer text-muted d-flex justify-content-end">
-                {{ review.created_at.date }} 에 작성됨.
-                {{ review.updated_at.date }} 에 수정됨.
+                {{ review.created_at.date }} 에 작성됨
                 {% if review.user == request.user %}
                 <button class="btn btn-outline-primary btn-sm border mx-4"><a href="{% url 'communities:review_update' review.pk %}">수정</a></button>
                 <form action="{% url 'communities:review_delete' review.pk %}" method="POST">
@@ -33,54 +33,49 @@
 
     </div>
 
-    <div class="container bg-white" style="width:70%">
-        <div class="row">
+    
+        <div class="row bg-white">
             <div class="col-md-12">
-              <div class="page-header">
-                <h1><small class="pull-right">총 {{ review.comment_set.count }} 개의 댓글</small> Comments </h1>
-              </div> 
-                <div class="">
-                   
-                    {% for comment in review.comment_set.all %}
-                    <div class="d-flex">
-                        <a class=" mr-4" href="#">
+                <div class="page-header">
+                <h1>총 {{ review.comment_set.count }} 개의 댓글</small> </h1>
+            </div>
+            <hr>
+            <div class="">
+
+                {% for comment in review.comment_set.all %}
+                <div class="d-flex justify-content-between">
+                        <!-- <a class=" mr-4" href="#">
                             <img src="http://lorempixel.com/40/40/people/1/">
-                        </a>
-                        <h3 class=" pb-2 mt-2">{{ comment.user.username }}님의 글</h3>
-                    </div>
+                        </a> -->
+
+                            <h3 class=" pb-2 mt-2">{{ comment.user.username }}님의 글</h3>
+                            <p >{{ comment.created_at}}에 작성</p>
+                </div>
+                    <div>
                         <h4>{{ comment.content }}</h4>
-                            {% if comment.user == request.user %}
-                                <form action="{% url 'communities:comments_delete' review.pk comment.pk %}" method="POST">
-                                    {% csrf_token %}
+                        {% if comment.user == request.user %}
+                            <form action="{% url 'communities:comments_delete' review.pk comment.pk %}" method="POST">
+                                {% csrf_token %}
+                                <div class="d-flex justify-content-end">
                                     <button class="btn btn-secondary text-white">댓글 삭제</button>
-                                </form>
-                            {% endif %}
-                    
-                            <p class="d-flex justify-content-end"><small>{{ comment.created_at}}에 작성</small></p>
-                        </div>
-                    {% endfor %}
-                      
+                                </div>
+                            </form>
+                        {% endif %}
+                        
                     </div>
+                    <hr>
+                    {% endfor %}
+                    <form class="text-black d-flex justify-content-between bg-white" action="{% url 'communities:comments_create' review.pk %}" method='POST'>
+                        {% csrf_token %}
+                        <h5> {{ form }} </h5>
+                        <button class="btn btn-secondary">댓글 작성</button>
+                    </form>
+                    </div>
+                    
                 </div>
                 <hr>
-            <form class="text-black d-flex justify-content-between bg-white" action="{% url 'communities:comments_create' review.pk %}" method='POST'>
-                {% csrf_token %}
-                <h5> {{ form }} </h5>
-                <button class="btn btn-secondary">댓글 작성</button>
-            </form>
-            </div>
-            
+
+            </div> 
         </div>
-        
-
-            
-
     </div>
-
-
-
-
-    
-    </div>
-
 {% endblock %}

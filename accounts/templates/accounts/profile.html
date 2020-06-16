@@ -7,7 +7,7 @@
     <div class="col-md-10 col-sm-12" style="position: relative; top:100px; left:120px;">
         <h1 class="text-white">{{ user.username }}님</h1>
         <h2 class="text-white">안녕하세요~</h2>
-        <hr>
+        <hr class='bg-light' style="position: relative; left:-120px; width:70%">
         <h3 class="text-white">작성한 글 목록</h3>
         {% if user.review_set.all %}
             {% for review in user.review_set.all %}
@@ -19,7 +19,7 @@
             <p style="color: thistle;">현재 작성한 글이 없습니다.</p>
             <a href="{% url 'communities:new_review' %}" class="text-white btn btn-secondary">글 쓰러가기</a>
             {% endif %}
-            <hr>
+            <hr class='bg-light' style="position: relative; left:-120px; width:70%">
             <h3 class="text-white">찜한 영화 목록</h3>
         {% if user.like_movies.all %}
             {% for movie in user.like_movies.all %}
@@ -31,7 +31,7 @@
         <p style="color: thistle;">현재 찜한 영화가 없습니다.</p>
         <a href="{% url 'movies:index' %}" class="text-white btn btn-secondary">영화목록으로 가기</a>
         {% endif %}
-        <hr>
+        <hr class='bg-light' style="position: relative; left:-120px; width:70%">
         <div class="d-flex justify-content-center mb-4">
             {% if request.user == user %}
                 <a href="{% url 'accounts:update' %}" class="text-white btn btn-dark mt-4 mr-2">정보 수정</a>
