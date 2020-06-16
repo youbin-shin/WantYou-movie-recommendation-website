@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie
 from django.http import JsonResponse
+from django.db.models import Q # search 기능
 from django.core.paginator import Paginator
 import requests
 
@@ -9,6 +10,32 @@ def home(request):
 
 
 def index(request):
+    user_like_movie_data = 0
+    like_data_dict = 0
+    if request.user.is_authenticated:
+        user = request.user
+        user_like_movie_data = user.like_movies.all()
+        like_data_dict = {}
+        lendata = len(user_like_movie_data)
+        sorted_data = 0
+        if lendata-1 >= 0:
+            for movie in user_like_movie_data:
+                for genre in movie.genres:
+                    if genre in like_data_dict:
+                        like_data_dict[genre] += 1
+                    else:
+                        like_data_dict[genre] = 1
+    
+    sorted_data = sorted(like_data_dict.items(), key = lambda x: x[1], reverse=True)
+    
+     # 영화 검색 기능
+    search_movies = None
+    query = None
+    if 'q' in request.GET:
+        query = request.GET.get('q')
+        search_movies = Movie.objects.all().filter(Q(title__contains=query) | Q(original_title__contains=query))
+    search_movie_num = len(search_movies)
+
     movies1 = Movie.objects.filter().order_by('-popularity')[:4]
     movies2 = Movie.objects.filter().order_by('-popularity')[4:8]
     movies3 = Movie.objects.filter().order_by('-popularity')[8:12]
@@ -22,6 +49,12 @@ def index(request):
         'movies1' : movies1,
         'movies2' : movies2,
         'movies3' : movies3,
+        'user_like_movie_data': user_like_movie_data,
+        'like_data_dict' : like_data_dict,
+        'sorted_data':sorted_data,
+        'search_movies': search_movies,
+        'query': query,
+        'search_movie_num': search_movie_num
     }
     return render(request, 'movies/index.html', context)
 
