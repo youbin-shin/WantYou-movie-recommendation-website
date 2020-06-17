@@ -20,7 +20,7 @@
             <a href="{% url 'communities:new_review' %}" class="text-white btn btn-secondary">글 쓰러가기</a>
             {% endif %}
             <hr class='bg-light' style="position: relative; left:-120px; width:70%">
-            <h3 class="text-white">찜한 영화 목록</h3>
+            <h3 class="text-white">즐겨찾기한 영화 목록</h3>
         {% if user.like_movies.all %}
             {% for movie in user.like_movies.all %}
             <a href="{% url 'movies:detail' movie.pk %}">
@@ -28,7 +28,7 @@
             </a>
             {% endfor %}
         {% else %}
-        <p style="color: thistle;">현재 찜한 영화가 없습니다.</p>
+        <p style="color: thistle;">현재 즐겨찾기한 영화가 없습니다.</p>
         <a href="{% url 'movies:index' %}" class="text-white btn btn-secondary">영화목록으로 가기</a>
         {% endif %}
         <hr class='bg-light' style="position: relative; left:-120px; width:70%">

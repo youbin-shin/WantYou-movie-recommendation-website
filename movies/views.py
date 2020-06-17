@@ -127,7 +127,7 @@ def detail(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
-        'key': 'AIzaSyBbJVfbqE7deJZJGeI32ehYHCTEWxAQ9r0',
+        'key': 'AIzaSyAIwfeGhM-GQoPGzI1aNx3ouwt7u1cAivg',
         'part': 'snippet',
         'type': 'video',
         'q': movie.original_title  + 'trailer',
